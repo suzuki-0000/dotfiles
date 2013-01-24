@@ -8,21 +8,17 @@ else
 endif
 "----------------------------------------------------------
 "フォント
-if has('mac')
-    set guifont=Ricty:h20
-elseif has('win32' || 'win64')
-else
-    set guifont=Ricty\ 16
-endif
+"if has('mac')
+"    set guifont=Ricty:h20
+"elseif has('win32' || 'win64')
+"else
+"    set guifont=Ricty\ 16
+"endif
 "----------------------------------------------------------
 "カラー
 syntax on
-hi clear
-if exists("syntax_on")
-    syntax reset
-endif
-set bg=dark
-colorscheme black
+":colorscheme zenburn
+:colorscheme desert
 "---------------------------------------------------------
 "ファイル
 "autocmd! BufRead,BufNewFile *.scala set filetype=scala
@@ -49,131 +45,98 @@ set formatoptions+=mM  "テキスト挿入中の自動折り返しを日本語�
 "インデント・空白
 set smartindent        "自動インデント
 set nolist             "タブや改行を表示しない(ex:$,^I)
-set tabstop=4 softtabstop=4 shiftwidth=4                             "タブ・インデント幅
-autocmd FileType ruby,eruby set tabstop=2 softtabstop=2 shiftwidth=2 "Ruby
 set expandtab          "タブの代わりにスペースを使う
-autocmd BufWritePre * :%s/\s\+$//ge   "保存時に行末の空白を除去する
 "検索
 set hlsearch           "検索結果文字列のハイライトを有効にする
 set ignorecase         "検索の時に大文字小文字を区別しない
-set smartcase          "検索の時に大文字が含まれている場合は区別して検索する
 set noincsearch        "インクリメンタルサーチを使わない
 set wrapscan           "検索時にファイルの最後まで行ったら最初に戻る
 "コマンド・ステータスライン
-set laststatus=2       "ステータスラインを常に表示
-set statusline=%n\:%y%F\ \|%{(&fenc!=''?&fenc:&enc).'\|'.&ff.'\|'}%m%r%=<%l/%L:%p%%>  "ステータスラインに表示する情報の指定
-set showcmd            "コマンドをステータス行に表示
-set wildmenu           "コマンドライン補完を拡張モードにする
-set textwidth=0        "入力されているテキストの最大
+"set laststatus=2       "ステータスラインを常に表示
+"set showcmd            "コマンドをステータス行に表示
+"set wildmenu           "コマンドライン補完を拡張モードにする
+"set textwidth=0        "入力されているテキストの最大
+"swpとかいうファイルを作るのやめて
+set noswapfile
+"他のアプリでコピーした文字をvimで貼り付ける
+set clipboard=unnamed,autoselect
 "カーソルライン
 set cursorline
-"highlight cursorline term=none cterm=none ctermfg=none ctermbg=darkgray
-"シンタックスチェック
-autocmd FileType ruby,eruby :map <C-n> <ESC>:!ruby -cW %<CR>
+"**********************************************************
+"                        キーバインド
+"**********************************************************
+"nnoremap <SPACE>   <PageDown>
+"nnoremap <S-SPACE> <PageUp>
+"コマンドモードへ戻る
+inoremap <C-u> <Esc>
 "最初のヤンクを連続でペースト
 vnoremap <silent> <C-p> "0p<CR>
+
+" Insert mode 時に Emacs っぽくする
+inoremap <C-a> <Esc>0i
+inoremap <C-e> <Esc>:LineEnd<CR>a
+
+inoremap <C-f> <Esc><Right>a
+inoremap <C-b> <Esc>i
+inoremap <C-n> <Esc>:LineDown<CR>a
+inoremap <C-p> <Esc>:LineUp<CR>a
+
+inoremap <C-o> <Esc>o
+inoremap <C-h> <BS>
+inoremap <C-d> <Esc><Right>xi
+inoremap <C-k> <Esc><Right>:DeleteLineToEnd<CR>i
+" for editing vimrc
+nnoremap <Space>. :<C-u>tabedit $MYVIMRC<CR>
+" *** for unite.vim ***
+" 入力モードで開始する
+" let g:unite_enable_start_insert=1
+" バッファ一覧
+nnoremap <silent> ,ub :<C-u>Unite buffer<CR>
+" ファイル一覧
+nnoremap <silent> ,uf :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
+" レジスタ一覧
+nnoremap <silent> ,ur :<C-u>Unite -buffer-name=register register<CR>
+" 最近使用したファイル一覧
+nnoremap <silent> ,um :<C-u>Unite file_mru<CR>
+" 常用セット
+nnoremap <silent> ,uu :<C-u>Unite buffer file_mru<CR>
+" 全部乗せ
+nnoremap <silent> ,ua :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
+"
+" ウィンドウを分割して開く
+au FileType unite nnoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
+au FileType unite inoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
+" ウィンドウを縦に分割して開く
+au FileType unite nnoremap <silent> <buffer> <expr> <C-k> unite#do_action('vsplit')
+au FileType unite inoremap <silent> <buffer> <expr> <C-k> unite#do_action('vsplit')
+" ESCキーを2回押すと終了する
+au FileType unite nnoremap <silent> <buffer> <ESC><ESC>q
+au FileType unite inoremap <silent> <buffer> <ESC><ESC>q
 
 "**********************************************************
 "                        プラグイン
 "**********************************************************
-"---------- neobundle ----------
-set nocompatible
-filetype plugin indent off
+set nocompatible               " be iMproved
+filetype off
+
 if has('vim_starting')
-    set runtimepath+=~/.vim/neobundle.vim.git
-    call neobundle#rc(expand('~/.vim/.bundle/'))
+        set runtimepath+=~/.vim/bundle/neobundle.vim
+        call neobundle#rc(expand('~/.vim/bundle/'))
 endif
-NeoBundle 'https://github.com/Shougo/neobundle.vim.git'
-"NeoBundle 'https://github.com/Shougo/neocomplcache.git'
-"NeoBundle 'https://github.com/rhysd/endwize.vim.git'
-NeoBundle 'https://github.com/vim-scripts/smartchr.git'
-NeoBundle 'https://github.com/tpope/vim-surround.git'
-NeoBundle 'https://github.com/tsaleh/vim-align.git'
-NeoBundle 'https://github.com/scrooloose/syntastic.git'
-NeoBundle 'https://github.com/vim-scripts/grep.vim.git'
-"NeoBundle 'https://github.com/mattn/zencoding-vim.git'
-NeoBundle 'https://github.com/tyru/open-browser.vim.git'
-NeoBundle 'https://github.com/tyru/urilib.vim.git'
-NeoBundle 'https://github.com/rickard/project.vim.git'
-NeoBundle 'https://github.com/vim-scripts/ref.vim.git'
-NeoBundle 'https://github.com/Shougo/unite.vim.git'
-filetype plugin indent on
-"---------- neocomplcache ----------
-let g:neocomplcache_enable_at_startup=1           "neocomplcacheを有効にする
-let g:neocomplcache_enable_smart_case=1           "smartcaseを有効にする
-let g:neocomplcache_enable_underbar_completion=1  "underbarを有効にする
-let g:neocomplcache_min_keyword_length=3
-let g:neocomplcache_min_syntax_length=3
-setlocal omnifunc=syntaxcomplete#Complete
-"辞書
-let g:neocomplcache_dictionary_filetype_lists = {
-    \ 'default'    : '',
-    \ 'cpp'        : $HOME . '/.vim/dict/cpp.dict',
-    \ 'javascript' : $HOME . '/.vim/dict/javascript.dict',
-    \ 'objc'       : $HOME . '/.vim/dict/objc.dict',
-    \ 'objcpp'     : $HOME . '/.vim/dict/objcpp.dict',
-    \ }
-"コードスニペット
-let g:neocomplcache_snippets_dir = $HOME . '/.vim/snippets'
-if has('mac')
-    let g:neocomplcache_clang_use_library = 1
-    let g:neocomplcache_clang_library_path = '/usr/lib'
-endif
-"neocomplecache + rsense
-if has('mac')
-    let g:rsenseHome = '/usr/local/Cellar/rsense/0.3'
-    let g:rsenseUseOmniFunc = 1
-    if !exists('g:neocomplcache_omni_patterns')
-        let g:neocomplcache_omni_patterns = {}
-    endif
-elseif has('win32' || 'win64')
-else
-endif
-"let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
-"キーマッピング
-imap <C-k> <Plug>(neocomplcache_snippets_expand)
-smap <C-k> <Plug>(neocomplcache_snippets_expand)
-"---------- endwize ----------
-"neocomplcache, endwizeキーマッピング
-autocmd FileType ruby imap <buffer> <expr><CR>  pumvisible() ? neocomplcache#smart_close_popup()."\<CR>\<Plug>DiscretionaryEnd" : "\<CR>\<Plug>DiscretionaryEnd"
-"---------- smartchr ----------
-"---------- surround ----------
-"---------- align ----------
-vnoremap :al :Align
-let g:Align_xstrlen=3
-"---------- syntastic ----------
-let g:syntastic_enable_signs=1
-let g:syntastic_auto_loc_list=2
-"---------- grep ----------
-nnoremap :grep :GrepBuffer
-"---------- zencoding ----------
-"codaのデフォルトと一緒にする
-imap <C-E> <C-Y>,
-let g:user_zen_leader_key = '<C-Y>'
-"言語別に対応させる
-let g:user_zen_settings = {
-    \  'lang' : 'ja',
-    \  'html' : {
-    \    'filters' : 'html',
-    \    'indentation' : '    '
-    \  },
-    \  'css' : {
-    \    'filters' : 'fc',
-    \  },
-    \}
-"---------- open-browser ----------
-"カーソル下のURLをブラウザで開く
-nmap <Leader>o <Plug>(openbrowser-open)
-vmap <Leader>o <Plug>(openbrowser-open)
-"ググる
-nnoremap <Leader>g :<C-u>OpenBrowserSearch<Space><C-r><C-w><Enter>
-"---------- urilib ----------
-"---------- project ----------
-"ファイルが選択されたら、ウィンドウを閉じる
-let g:proj_flag = "imstc"
-"<Leader>p,<Leader>Pでトグルを開閉する
-nmap <silent> <Leader>P <Plug>ToggleProject
-nmap <silent> <Leader>p :Project<CR>
-"---------- ref ----------
-nnoremap :ref :Ref
-"---------- unite ----------
+" originalrepos on github
+NeoBundle 'Shougo/neobundle.vim'
+NeoBundle 'Shougo/vimproc'
+NeoBundle 'VimClojure'
+NeoBundle 'Shougo/vimshell'
+NeoBundle 'Shougo/unite.vim'
+NeoBundle 'Shougo/neocomplcache'
+NeoBundle 'Shougo/neosnippets'
+NeoBundle 'jpalardy/vim-slime'
+NeoBundle 'scrooloose/syntastic'
+NeoBundle 'ZenCoding.vim' 
+
+""NeoBundle 'https://bitbucket.org/kovisoft/slimv'
+
+filetype plugin indent on     " required!
+filetype indent on
+syntax on
