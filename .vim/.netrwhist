@@ -1,3 +1,11 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =1
+let g:netrw_dirhist_cnt =9
 let g:netrw_dirhist_1='/Users/suzuki_keishi/.vim'
+let g:netrw_dirhist_2='/Users/suzuki_keishi/hoge'
+let g:netrw_dirhist_3='/Users/suzuki_keishi/.git'
+let g:netrw_dirhist_4='/Users/suzuki_keishi/workspace_git/.git'
+let g:netrw_dirhist_5='/Users/suzuki_keishi/workspace_git/test'
+let g:netrw_dirhist_6='/Users/suzuki_keishi/workspace_git/.git'
+let g:netrw_dirhist_7='/Users/suzuki_keishi/dotfiles/.vim'
+let g:netrw_dirhist_8='/Users/suzuki_keishi'
+let g:netrw_dirhist_9='/Users/suzuki_keishi/.vim/colors'
