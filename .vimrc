@@ -126,6 +126,31 @@ nnoremap <silent> ,ug :Unite grep:%:-iHRn<CR>
 " open chrome
 noremap <C-o> :!open -a "Google Chrome" %<CR>
 "------------------------------------
+" open-browser.vim
+"------------------------------------
+" カーソル下のURLをブラウザで開く
+nmap <C-U><C-O> <Plug>(openbrowser-open)
+vmap <C-U><C-O> <Plug>(openbrowser-open)
+" ググる
+nnoremap <C-U><C-G>  :<C-u>OpenBrowserSearch<Space><C-r><C-w><Enter>
+
+"------------------------------------
+" vim-browsereload-mac
+"------------------------------------
+" リロード後に戻ってくるアプリ 変更してください
+let g:returnApp = "terminal"
+nmap <Space>nn :ChromeReloadStart<CR>
+nmap <Space>nN :ChromeReloadStop<CR>
+"nmap <Space>bf :FirefoxReloadStart<CR>
+"nmap <Space>bF :FirefoxReloadStop<CR>
+"nmap <Space>bs :SafariReloadStart<CR>
+"nmap <Space>bS :SafariReloadStop<CR>
+"nmap <Space>bo :OperaReloadStart<CR>
+"nmap <Space>bO :OperaReloadStop<CR>
+"nmap <Space>ba :AllBrowserReloadStart<CR>
+"nmap <Space>bA :AllBrowserReloadStop<CR>
+
+"------------------------------------
 " ctrlp.vim
 "------------------------------------
 set runtimepath^=~/.vim/bundle/ctrlp.vim
@@ -184,7 +209,14 @@ let g:hi_insert = 'highlight StatusLine guifg=darkblue guibg=darkyellow gui=none
 " simple js indenter 
 "------------------------------------
 " この設定入れるとshiftwidthを1にしてインデントしてくれる
-let g:SimpleJsIndenter_BriefMode = 1
+" let g:SimpleJsIndenter_BriefMode = 1
+
+"------------------------------------
+"jsbeautify_file
+"------------------------------------
+"let g:jsbeautify_file = fnameescape(fnamemodify(expand("<sfile>"), ":h")."/bundle/js-beautify/beautify.js") 
+"let g:jsbeautify = {"indent_size": 4, "indent_char": "\t"} 
+"noremap <C-F><C-F> :call JsBeautify()<CR> 
 
 "**********************************************************
 "                        プラグイン
@@ -195,28 +227,50 @@ if has('vim_starting')
         set runtimepath+=~/.vim/bundle/neobundle.vim
         call neobundle#rc(expand('~/.vim/bundle/'))
 endif
-" originalrepos on github
+"---------------------------------------
+"utility
+"---------------------------------------
 NeoBundle 'Shougo/neobundle.vim'
 NeoBundle 'Shougo/vimproc'
 NeoBundle 'VimClojure'
 NeoBundle 'Shougo/vimshell'
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/neocomplcache'
-"NeoBundle 'Shougo/neosnippet'
 NeoBundle 'jpalardy/vim-slime'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'tpope/vim-surround'
-NeoBundle 'ZenCoding.vim' 
+NeoBundle 'mattn/zencoding-vim'
+NeoBundle 'open-browser.vim'
+"---------------------------------------
+"search
+"---------------------------------------
 NeoBundle 'taglist.vim'
 NeoBundle 'kien/ctrlp.vim'
+"---------------------------------------
+"color
+"---------------------------------------
 NeoBundle 'nanotech/jellybeans.vim'
+"---------------------------------------
+"syntax 
+"---------------------------------------
+NeoBundle 'JavaScript-syntax'
+NeoBundle 'tell-k/vim-browsereload-mac'
+NeoBundle 'hail2u/vim-css3-syntax'
+NeoBundle 'taichouchou2/html5.vim'
+NeoBundle 'taichouchou2/vim-javascript' 
+"---------------------------------------
+"jshint
+"---------------------------------------
+NeoBundle 'tpope/vim-pathogen'
+NeoBundle 'scrooloose/syntastic'
+
+"NeoBundle 'Shougo/neosnippet'
 "NeoBundle 'project_vim' 
 "NeoBundle 'Shougo/vimfiler'
 " for snipmate under below
 "NeoBundle 'MarcWeber/vim-addon-mw-utils'
 "NeoBundle 'tomtom/tlib_vim'
 "NeoBundle 'garbas/vim-snipmate'
-NeoBundle 'JavaScript-syntax'
-NeoBundle 'jiangmiao/simple-javascript-indenter'
+"NeoBundle 'jiangmiao/simple-javascript-indenter'
 
 syntax on
