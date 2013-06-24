@@ -230,6 +230,7 @@ endif
 "---------------------------------------
 "utility
 "---------------------------------------
+" originalrepos on github
 NeoBundle 'Shougo/neobundle.vim'
 NeoBundle 'Shougo/vimproc'
 NeoBundle 'VimClojure'
