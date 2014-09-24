@@ -1,3 +1,3 @@
 echo 'goes to for git...'
-cp -r ~/.vim ~/.vimrc ~/dotfiles/
+cp ~/.vimrc vimrc
 echo 'goes to for git... has done.'
