@@ -1,18 +1,4 @@
 "----------------------------------------------------------
-"文字コード
-if has('win32' || 'win64')
-else
-    set enc=utf-8
-    set fenc=utf-8
-    set fencs=utf-8,iso-2022-jp,euc-jp,cp932
-endif
-"----------------------------------------------------------
-"ウィンドウ
-if has('win32' || 'win64')
-else
-    au GUIEnter * simalt ~x
-endif
-"----------------------------------------------------------
 "カラー
 "colorscheme darkblue
 "colorscheme desert 
@@ -23,6 +9,9 @@ color jellybeans
 "**********************************************************
 "                       basic settings 
 "**********************************************************
+if $GOROOT != ''
+  set rtp+=$GOROOT/misc/vim
+endif
 set shortmess+=I       "起動時のメッセージをスキップ
 set title              "タイトルをウインドウ枠に表示する
 set history=100        "コマンド、検索パターンを100個まで履歴に残す
@@ -43,27 +32,43 @@ set wrapscan           "検索時にファイルの最後まで行ったら最�
 set noswapfile         "swpとかいうファイルを作るのやめて
 set cursorline         "カーソルライン
 set clipboard=unnamed,autoselect "コピーした文字をvimで貼り付ける
-set nocompatible               " be iMproved
+set nocompatible       "vim default
+set encoding=utf-8
+set termencoding=utf-8
+set fileencoding=utf-8
 filetype plugin indent on     " required!
 filetype indent on
+let mapleader = ","    " , as leader
 
 "**********************************************************
 "                        キーバインド
 "**********************************************************
 "----------normal mode----------
-" .vimrcを開く
+".vimrcを開く
 nnoremap <Space>,  :<C-u>edit $MYVIMRC<CR>
-" .vimrc reload
+nnoremap <silent> <Leader>v :<C-u>edit $MYVIMRC<CR>
+".vimrc reload
 nnoremap <Space>.  :<C-u>source $MYVIMRC<CR>
+nnoremap <silent> <Leader>r :<C-u>source $MYVIMRC<CR>
 "サーチハイライトををESC二回で消す
 nnoremap <Esc><Esc> :nohlsearch<CR><Esc>
 "helpを引きやすく
 nnoremap <C-h>  :<C-u>help<Space>
-"----------normal mode----------
-inoremap <silent> <Esc> <Esc>
-inoremap <silent> <C-[> <Esc>
-" 「日本語入力固定モード」切り替えキー
-inoremap <silent> <C-j> <C-^>
+"window split and move.
+nnoremap ss :<C-u>sp<CR>
+nnoremap sv :<C-u>vs<CR>
+nnoremap sh <C-w>h
+nnoremap sj <C-w>j
+nnoremap sk <C-w>k
+nnoremap sl <C-w>l
+nnoremap sH <C-w>H
+nnoremap sJ <C-w>J
+nnoremap sK <C-w>K
+nnoremap sL <C-w>L
+"new window
+"nnoremap st :<C-u>tabnew<CR>
+
+"----------insert mode----------
 " Insert mode 時に Emacs っぽくする
 inoremap <C-a> <Esc>0i
 inoremap <C-e> <Esc>:LineEnd<CR>a
@@ -77,26 +82,31 @@ inoremap <C-d> <Esc><Right>xi
 "----------最後に選択したテキストの選択----------
 nnoremap gc '[v']
 inoremap gc :<C-u>normal gc<Enter>
-onoremap gc :<C-u>normal gc<Enter>
+nnoremap gc :<C-u>normal gc<Enter>
+"open chrome
+"nnoremap <C-o> :!open -a "Google Chrome" %<CR>
 
 "------------------------------------
-" vim filer 
+" NERDTree
 "------------------------------------
-" nnoremap <Space>f  :VimFilerExplorer<CR>
+nnoremap <silent> <Leader>e :NERDTreeToggle<CR>
 
 "------------------------------------
-" neocomplcache 
+" vim-go
 "------------------------------------
-" 起動時に有効化
-let g:neocomplcache_enable_at_startup = 1 " 起動時に有効化
-
-"------------------------------------
-" neosnippets_
-"------------------------------------
-" Plugin key-mappings.
-"imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-"smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-"xmap <C-k>     <Plug>(neosnippet_expand_target)
+let g:go_fmt_command = "goimports"
+au FileType go nmap <Leader>s <Plug>(go-implements)
+au FileType go nmap <leader>r <Plug>(go-run)
+au FileType go nmap <leader>b <Plug>(go-build)
+au FileType go nmap <leader>t <Plug>(go-test)
+au FileType go nmap <leader>c <Plug>(go-coverage)
+au FileType go nmap <Leader>i <Plug>(go-info)
+au FileType go nmap <Leader>gd <Plug>(go-doc)
+au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
+au FileType go nmap <Leader>dd <Plug>(go-def)
+au FileType go nmap <Leader>ds <Plug>(go-def-split)
+au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
+au FileType go nmap <Leader>dt <Plug>(go-def-tab)
 
 "------------------------------------
 " unite.vim
@@ -121,16 +131,29 @@ au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
 " ファイル分割して開く
 au FileType unite nnoremap <silent> <buffer> <expr> <C-t> unite#do_action('split')
 au FileType unite nnoremap <silent> <buffer> <expr> <C-v> unite#do_action('vsplit')
-" Unite-grep
-nnoremap <silent> ,ug :Unite grep:%:-iHRn<CR>
-" open chrome
-noremap <C-o> :!open -a "Google Chrome" %<CR>
+
+"------------------------------------
+" easy-motion
+"------------------------------------
+let g:EasyMotion_keys='hjklasdfgyuiopqwertnmzxcvbHJKLASDFGYUIOPQWERTNMZXCVB'
+let g:EasyMotion_leader_key="'"
+let g:EasyMotion_grouping=1
+
+"------------------------------------
+" NeoComplete
+"------------------------------------
+" Disable AutoComplPop.
+let g:acp_enableAtStartup = 0
+" Use neocomplcache.
+let g:neocomplcache_enable_at_startup = 1
+" Use smartcase.
+let g:neocomplcache_enable_smart_case = 1
+
 "------------------------------------
 " open-browser.vim
 "------------------------------------
 " カーソル下のURLをブラウザで開く
-nmap <C-U><C-O> <Plug>(openbrowser-open)
-vmap <C-U><C-O> <Plug>(openbrowser-open)
+nnoremap <C-U><C-O> <Plug>(openbrowser-open)
 " ググる
 nnoremap <C-U><C-G>  :<C-u>OpenBrowserSearch<Space><C-r><C-w><Enter>
 
@@ -154,124 +177,50 @@ nmap <Space>nN :ChromeReloadStop<CR>
 " ctrlp.vim
 "------------------------------------
 set runtimepath^=~/.vim/bundle/ctrlp.vim
+let g:ctrlp_working_path_mode = 'r'
 let g:ctrlp_max_height          = &lines " 目一杯に一覧
 let g:ctrlp_jump_to_buffer      = 2 " タブで開かれていた場合はそのタブに切り替える
-let g:ctrlp_clear_cache_on_exit = 0 " 終了時キャッシュをクリアしない
-let g:ctrlp_mruf_max            = 500 " MRUの最大記録数
-"let g:ctrlp_highlight_match     = [1, 'IncSearch'] " 絞り込みで一致した部分のハイライト
+let g:ctrlp_clear_cache_on_exit = 1 " 終了時キャッシュをクリアしない
+let g:ctrlp_mruf_max            = 300 " MRUの最大記録数
+let g:ctrlp_highlight_match     = [1, 'IncSearch'] " 絞り込みで一致した部分のハイライト
 let g:ctrlp_open_new_file       = 1 " 新規ファイル作成時にタブで開く
 let g:ctrlp_open_multi          = '10t' " 複数ファイルを開く時にタブで最大10まで開く
-let g:ctrlp_match_window_reversed = 0 " Change the listing order of the files in the match window.
-let g:ctrlp_mruf_default_order = 0 " Set this to 1 to disable sorting when searching in MRU mode:
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP'
-let g:ctrlp_prompt_mappings = {
-  \ 'PrtBS()':              ['<c-h>', '<bs>', '<c-]>'],
-  \ 'PrtDelete()':          ['<del>'],
-  \ 'PrtDeleteWord()':      ['<c-w>'],
-  \ 'PrtClear()':           ['<c-u>'],
-  \ 'PrtSelectMove("j")':   ['<c-n>', '<c-j>', '<down>'],
-  \ 'PrtSelectMove("k")':   ['<c-p>', '<c-k>', '<up>'],
-  \ 'PrtHistory(-1)':       [],
-  \ 'PrtHistory(1)':        [],
-  \ 'AcceptSelection("e")': ['<cr>', '<2-LeftMouse>'],
-  \ 'AcceptSelection("h")': ['<c-x>', '<c-cr>', '<c-s>'],
-  \ 'AcceptSelection("t")': ['<c-t>', '<MiddleMouse>'],
-  \ 'AcceptSelection("v")': ['<c-v>', '<RightMouse>'],
-  \ 'ToggleFocus()':        ['<s-tab>'],
-  \ 'ToggleRegex()':        ['<c-r>'],
-  \ 'ToggleByFname()':      ['<c-d>'],
-  \ 'ToggleType(1)':        ['<c-f>', '<c-up>'],
-  \ 'ToggleType(-1)':       ['<c-b>', '<c-down>'],
-  \ 'PrtExpandDir()':       ['<tab>'],
-  \ 'PrtInsert("w")':       ['<F2>', '<insert>'],
-  \ 'PrtInsert("s")':       ['<F3>'],
-  \ 'PrtInsert("v")':       ['<F4>'],
-  \ 'PrtInsert("+")':       ['<F6>'],
-  \ 'PrtCurStart()':        ['<c-a>'],
-  \ 'PrtCurEnd()':          ['<c-e>'],
-  \ 'PrtCurLeft()':         ['<left>', '<c-^>'],
-  \ 'PrtCurRight()':        ['<c-l>', '<right>'],
-  \ 'PrtClearCache()':      ['<F5>'],
-  \ 'PrtDeleteMRU()':       ['<F7>'],
-  \ 'CreateNewFile()':      ['<c-y>'],
-  \ 'MarkToOpen()':         ['<c-z>'],
-  \ 'OpenMulti()':          ['<c-o>'],
-  \ 'PrtExit()':            ['<esc>', '<c-c>', '<c-g>'],
-  \ }
+let g:ctrlp_custom_ignore = 'DS_Store\|\.git\|\.hg\|\.svn\|optimized\|compiled\|node_modules\|bower_components'
 
-""""""""""""""""""""""""""""""
-"挿入モード時、ステータスラインの色を変更
-"""""""""""""""""""""""""""""""
-let g:hi_insert = 'highlight StatusLine guifg=darkblue guibg=darkyellow gui=none ctermfg=blue ctermbg=yellow cterm=none'
+"----------------------------------------------------------
+"Plug start
+"----------------------------------------------------------
+call plug#begin('~/.vim/plugged')
 
-"------------------------------------
-" simple js indenter 
-"------------------------------------
-" この設定入れるとshiftwidthを1にしてインデントしてくれる
-" let g:SimpleJsIndenter_BriefMode = 1
-
-"------------------------------------
-"jsbeautify_file
-"------------------------------------
-"let g:jsbeautify_file = fnameescape(fnamemodify(expand("<sfile>"), ":h")."/bundle/js-beautify/beautify.js") 
-"let g:jsbeautify = {"indent_size": 4, "indent_char": "\t"} 
-"noremap <C-F><C-F> :call JsBeautify()<CR> 
-
-"**********************************************************
-"                        プラグイン
-"**********************************************************
-filetype off
-
-if has('vim_starting')
-        set runtimepath+=~/.vim/bundle/neobundle.vim
-        call neobundle#rc(expand('~/.vim/bundle/'))
-endif
-"---------------------------------------
 "utility
-"---------------------------------------
-" originalrepos on github
-NeoBundle 'Shougo/neobundle.vim'
-NeoBundle 'Shougo/vimproc'
-NeoBundle 'VimClojure'
-NeoBundle 'Shougo/vimshell'
-NeoBundle 'Shougo/unite.vim'
-NeoBundle 'Shougo/neocomplcache'
-NeoBundle 'jpalardy/vim-slime'
-NeoBundle 'scrooloose/syntastic'
-NeoBundle 'tpope/vim-surround'
-NeoBundle 'mattn/zencoding-vim'
-NeoBundle 'open-browser.vim'
-"---------------------------------------
+Plug 'Shougo/vimshell'
+"Plug 'Shougo/vimproc'
+"file serach
+Plug 'scrooloose/nerdtree'
+Plug 'Shougo/unite.vim'
+Plug 'Shougo/neomru.vim'
+"with browser
+Plug 'open-browser.vim'
+Plug 'tell-k/vim-browsereload-mac'
 "search
-"---------------------------------------
-NeoBundle 'taglist.vim'
-NeoBundle 'kien/ctrlp.vim'
-"---------------------------------------
+Plug 'kien/ctrlp.vim'
+Plug 'Lokaltog/vim-easymotion'
 "color
-"---------------------------------------
-NeoBundle 'nanotech/jellybeans.vim'
-"---------------------------------------
+Plug 'nanotech/jellybeans.vim'
 "syntax 
-"---------------------------------------
-NeoBundle 'JavaScript-syntax'
-NeoBundle 'tell-k/vim-browsereload-mac'
-NeoBundle 'hail2u/vim-css3-syntax'
-NeoBundle 'taichouchou2/html5.vim'
-NeoBundle 'taichouchou2/vim-javascript' 
-"---------------------------------------
-"jshint
-"---------------------------------------
-NeoBundle 'tpope/vim-pathogen'
-NeoBundle 'scrooloose/syntastic'
+Plug 'scrooloose/syntastic'
+Plug 'hail2u/vim-css3-syntax'
+Plug 'taichouchou2/html5.vim'
+Plug 'leafgarland/typescript-vim'
+Plug 'stephpy/vim-yaml'
+Plug 'ekalinin/Dockerfile.vim'
+Plug 'hail2u/vim-css3-syntax'
+Plug 'tpope/vim-markdown'
+Plug 'kannokanno/previm'
+"completon
+Plug 'Shougo/neocomplcache.vim'
+Plug 'fatih/vim-go'
 
-"NeoBundle 'Shougo/neosnippet'
-"NeoBundle 'project_vim' 
-"NeoBundle 'Shougo/vimfiler'
-" for snipmate under below
-"NeoBundle 'MarcWeber/vim-addon-mw-utils'
-"NeoBundle 'tomtom/tlib_vim'
-"NeoBundle 'garbas/vim-snipmate'
-"NeoBundle 'jiangmiao/simple-javascript-indenter'
+call plug#end()
 
 syntax on
