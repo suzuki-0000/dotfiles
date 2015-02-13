@@ -1,81 +1,100 @@
-# Path to your oh-my-zsh installation.
-export ZSH=$HOME/.oh-my-zsh
-# export ANDROID_HOME='/Applications/Android Studio.app/sdk'
-export ANDROID_HOME='/Users/a12556/Downloads/adt-bundle-mac-x86_64-20140321/sdk'
-export GOROOT=`go env GOROOT`
-export GOPATH=/Users/a12556/go
-export YOKOSUKA_ENV=test
- #export NEWRELIC_ENV=on
- 
-# Set name of the theme to load.
-# Look in ~/.oh-my-zsh/themes/
-# Optionally, if you set this to "random", it'll load a random theme each
-# time that oh-my-zsh is loaded.
-ZSH_THEME="af-magic"
+#
+# Executes commands at the start of an interactive session.
+#
+# Authors:
+#   Sorin Ionescu <sorin.ionescu@gmail.com>
+#
 
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
+###########
+# Source Prezto.
+###########
+if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
+  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+fi
 
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
+###########
+# basic
+###########
+alias -g G="| grep"
+alias -g N="> /dev/null"
+alias S="sudo "
+alias SV="sudo vim"
+alias H="history"
+alias ps="ps aux"
+alias ll="ls -aio"
+alias cp="cp -p"
+alias rm="rm -i"
+alias mv="mv -i"
+alias hosts="sudo vi /etc/hosts"
+###########
+# autojump
+###########
+_Z_CMD=j
+. /Users/a12556/workspace/z/z.sh
+precmd() {
+  _z --add "$(pwd -P)"
+}
+###########
+# sanrenp
+###########
+alias aws="ssh -i ~/.ssh/id_rsa  suzuki_keishi@54.65.11.115 -p 55222"
+###########
+# ios
+###########
+alias ios_list="ios profiles:list -u keishi.1983@gmail.com -p steelbird996"
+alias ios_devices="ios profiles:devices -u keishi.1983@gmail.com -p steelbird996"
+alias ios_build="ipa build -d ipa"
+#alias ios_dist="ipa distribute:hockeyapp -a f4d386904ed145f9a64fdf443731b634 -m 'released' -f ipa/maihama.ipa -d ipa/maihama.app.dSYM.zip"
+#alias ios_dist="ipa distribute:deploygate -a bedfcbc6e413ead285271af7bf5dba3dc201b8d9 -m 'released' -f ipa/maihama.ipa -u 'suzuki-0000'"
+alias ios_dist="curl -F "file=@ipa/maihama.ipa" -F "token=63b55da3740bc2c339fe783ca4d632b6a582e546" -F "message=sample" https://deploygate.com/api/users/suzuki-0000/apps"
+#
+###########
+# grunt 
+###########
+alias gw="grunt w"
+###########
+# git 
+###########
+alias gs="git status"
+alias gd="git diff"
+alias gl="git pull upstream develop"
+alias gpo="git push origin develop"
+alias gpu="git push upstream develop"
+###########
+# sakura
+###########
+alias sakura="ssh suzuki_keishi@49.212.182.54 -p 10022"
+###########
+# other 
+###########
+alias virc="vim ~/.bashrc; source ~/.bashrc"
+alias vimrc="vim ~/.vimrc; source ~/.vimrc"
+alias zrc="vim ~/.zshrc; source ~/.zshrc"
+###########
+# memcached
+###########
+alias memkill="sudo killall memcached"
+alias memstart="/usr/local/bin/memcached -d -m 6024 -I 10m"
+###########
+# ruby
+###########
+eval export PATH="/Users/a12556/.rbenv/shims:${PATH}"
+source "/usr/local/Cellar/rbenv/0.4.0/libexec/../completions/rbenv.zsh"
+rbenv rehash 2>/dev/null
+rbenv() {
+  typeset command
+  command="$1"
+  if [ "$#" -gt 0 ]; then
+    shift
+  fi
 
-# Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
+  case "$command" in
+  rehash|shell)
+    eval `rbenv "sh-$command" "$@"`;;
+  *)
+    command rbenv "$command" "$@";;
+  esac
+}
 
-# Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
-
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
-
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment the following line to disable command auto-correction.
-# DISABLE_CORRECTION="true"
-
-# Uncomment the following line to display red dots whilst waiting for completion.
-# COMPLETION_WAITING_DOTS="true"
-
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# HIST_STAMPS="mm/dd/yyyy"
-
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
-
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git)
-
-source $ZSH/oh-my-zsh.sh
-
-# User configuration
-
-export PATH="/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin"
-export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
-# export MANPATH="/usr/local/man:$MANPATH"
-
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# ssh
-# export SSH_KEY_PATH="~/.ssh/dsa_id"
+# The next line updates PATH for the Google Cloud SDK.
+source '/Users/a12556/y/google-cloud-sdk/path.zsh.inc'
