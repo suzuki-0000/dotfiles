@@ -41,13 +41,6 @@ alias aws="ssh -i ~/.ssh/id_rsa  suzuki_keishi@54.65.11.115 -p 55222"
 ###########
 # ios
 ###########
-alias ios_list="ios profiles:list -u keishi.1983@gmail.com -p steelbird996"
-alias ios_devices="ios profiles:devices -u keishi.1983@gmail.com -p steelbird996"
-alias ios_build="ipa build -d ipa"
-#alias ios_dist="ipa distribute:hockeyapp -a f4d386904ed145f9a64fdf443731b634 -m 'released' -f ipa/maihama.ipa -d ipa/maihama.app.dSYM.zip"
-#alias ios_dist="ipa distribute:deploygate -a bedfcbc6e413ead285271af7bf5dba3dc201b8d9 -m 'released' -f ipa/maihama.ipa -u 'suzuki-0000'"
-alias ios_dist="curl -F "file=@ipa/maihama.ipa" -F "token=63b55da3740bc2c339fe783ca4d632b6a582e546" -F "message=sample" https://deploygate.com/api/users/suzuki-0000/apps"
-#
 ###########
 # grunt 
 ###########
