@@ -35,10 +35,6 @@ precmd() {
   _z --add "$(pwd -P)"
 }
 ###########
-# sanrenp
-###########
-alias aws="ssh -i ~/.ssh/id_rsa  suzuki_keishi@54.65.11.115 -p 55222"
-###########
 # ios
 ###########
 ###########
@@ -54,20 +50,11 @@ alias gl="git pull upstream develop"
 alias gpo="git push origin develop"
 alias gpu="git push upstream develop"
 ###########
-# sakura
-###########
-alias sakura="ssh suzuki_keishi@49.212.182.54 -p 10022"
-###########
 # other 
 ###########
 alias virc="vim ~/.bashrc; source ~/.bashrc"
 alias vimrc="vim ~/.vimrc; source ~/.vimrc"
 alias zrc="vim ~/.zshrc; source ~/.zshrc"
-###########
-# memcached
-###########
-alias memkill="sudo killall memcached"
-alias memstart="/usr/local/bin/memcached -d -m 6024 -I 10m"
 ###########
 # ruby
 ###########
