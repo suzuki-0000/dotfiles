@@ -39,12 +39,6 @@ function peco-select-history() {
 zle -N peco-select-history
 bindkey '^r' peco-select-history
 ###########
-# sanrenp
-###########
-alias goto_provisioning="cd ~/Library/MobileDevice/Provisioning Profiles"
-alias sanrenp="ssh -i ~/.ssh/id_rsa  suzuki_keishi@54.65.11.115 -p 55222"
-alias sanrenp_scp="scp -P 55222 ~/peco_setting/awslist.sanrenp suzuki_keishi@54.65.11.115:~/peco_setting"
-###########
 # grunt 
 ###########
 alias gw="grunt w"
