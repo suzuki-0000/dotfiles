@@ -30,7 +30,7 @@ alias hosts="sudo vi /etc/hosts"
 # autojump
 ###########
 _Z_CMD=j
-. /Users/a12556/workspace/z/z.sh
+. ~/workspace/z/z.sh
 precmd() {
   _z --add "$(pwd -P)"
 }
@@ -58,7 +58,7 @@ alias zrc="vim ~/.zshrc; source ~/.zshrc"
 ###########
 # ruby
 ###########
-eval export PATH="/Users/a12556/.rbenv/shims:${PATH}"
+eval export PATH="~/.rbenv/shims:${PATH}"
 source "/usr/local/Cellar/rbenv/0.4.0/libexec/../completions/rbenv.zsh"
 rbenv rehash 2>/dev/null
 rbenv() {
@@ -77,4 +77,4 @@ rbenv() {
 }
 
 # The next line updates PATH for the Google Cloud SDK.
-source '/Users/a12556/y/google-cloud-sdk/path.zsh.inc'
+source '~/y/google-cloud-sdk/path.zsh.inc'
