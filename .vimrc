@@ -14,64 +14,57 @@ color jellybeans
 if $GOROOT != ''
   set rtp+=$GOROOT/misc/vim
 endif
-set shortmess+=I       "起動時のメッセージをスキップ
-set title              "タイトルをウインドウ枠に表示する
-set history=100        "コマンド、検索パターンを100個まで履歴に残す
-set showmatch          "括弧入力時の対応する括弧を表示
-set matchtime=2        "対応する括弧の表示時間を2にする
-set scrolloff=1000     "カーソル位置を画面の中心にする
-"set paste              "ペースト時の動作正常化
-set number             "行番号を表示
-set wrap               "折り返して次の行に表示する
-set formatoptions+=mM  "テキスト挿入中の自動折り返しを日本語に対応させる
-set smartindent        "自動インデント
-set nolist             "タブや改行を表示しない(ex:$,^I)
-set expandtab          "タブの代わりにスペースを使う
-set hlsearch           "検索結果文字列のハイライトを有効にする
-set ignorecase         "検索の時に大文字小文字を区別しない
-set noincsearch        "インクリメンタルサーチを使わない
-set wrapscan           "検索時にファイルの最後まで行ったら最初に戻る
-set noswapfile         "swpとかいうファイルを作るのやめて
-set cursorline         "カーソルライン
+set shortmess+=I                 "起動時のメッセージをスキップ
+set title                        "タイトルをウインドウ枠に表示する
+set history=100                  "コマンド、検索パターンを100個まで履歴に残す
+set showmatch                    "括弧入力時の対応する括弧を表示
+set matchtime=2                  "対応する括弧の表示時間を2にする
+set scrolloff=1000               "カーソル位置を画面の中心にする
+set paste                        "ペースト時の動作正常化
+set number                       "行番号を表示
+set wrap                         "折り返して次の行に表示する
+set formatoptions+=mM            "テキスト挿入中の自動折り返しを日本語に対応させる
+set smartindent                  "自動インデント
+set nolist                       "タブや改行を表示しない(ex:$,^I)
+set expandtab                    "タブの代わりにスペースを使う
+set hlsearch                     "検索結果文字列のハイライトを有効にする
+set ignorecase                   "検索の時に大文字小文字を区別しない
+set noincsearch                  "インクリメンタルサーチを使わない
+set wrapscan                     "検索時にファイルの最後まで行ったら最初に戻る
+set noswapfile                   "swpとかいうファイルを作るのやめて
+set cursorline                   "カーソルライン
 set clipboard=unnamed,autoselect "コピーした文字をvimで貼り付ける
-set nocompatible       "vim default
-set encoding=utf-8
-set termencoding=utf-8
-set fileencoding=utf-8
-filetype plugin indent on     " required!
-filetype indent on
-let mapleader = ","    " , as leader
+set nocompatible                 "
+set encoding=utf-8               "
+set termencoding=utf-8           "
+set fileencoding=utf-8           "
+filetype plugin indent on        "required!
+filetype indent on               "indent on
+let mapleader = ","              " , as leader
 
 "**********************************************************
 "                        キーバインド
 "**********************************************************
 "----------normal mode----------
-".vimrcを開く
+".vimrc open
 nnoremap <Space>,  :<C-u>edit $MYVIMRC<CR>
 nnoremap <silent> <Leader>v :<C-u>edit $MYVIMRC<CR>
 ".vimrc reload
 nnoremap <Space>.  :<C-u>source $MYVIMRC<CR>
 nnoremap <silent> <Leader>r :<C-u>source $MYVIMRC<CR>
-"サーチハイライトををESC二回で消す
+"remove highlihgt
 nnoremap <Esc><Esc> :nohlsearch<CR><Esc>
-"helpを引きやすく
-nnoremap <C-h>  :<C-u>help<Space>
-"window split and move.
+"window split 
 nnoremap ss :<C-u>sp<CR>
 nnoremap sv :<C-u>vs<CR>
+"window move
 nnoremap sh <C-w>h
 nnoremap sj <C-w>j
 nnoremap sk <C-w>k
 nnoremap sl <C-w>l
-nnoremap sH <C-w>H
-nnoremap sJ <C-w>J
-nnoremap sK <C-w>K
-nnoremap sL <C-w>L
-"new window
-"nnoremap st :<C-u>tabnew<CR>
 
 "----------insert mode----------
-" Insert mode 時に Emacs っぽくする
+" like a Emac
 inoremap <C-a> <Esc>0i
 inoremap <C-e> <Esc>:LineEnd<CR>a
 inoremap <C-f> <Esc><Right>a
@@ -79,11 +72,6 @@ inoremap <C-b> <Esc>i
 inoremap <C-o> <Esc>o
 inoremap <C-h> <BS>
 inoremap <C-d> <Esc><Right>xi
-"
-"----------最後に選択したテキストの選択----------
-nnoremap gc '[v']
-inoremap gc :<C-u>normal gc<Enter>
-nnoremap gc :<C-u>normal gc<Enter>
 
 "------------------------------------
 " NERDTree
@@ -110,11 +98,10 @@ au FileType go nmap <Leader>dt <Plug>(go-def-tab)
 "------------------------------------
 " unite.vim
 "------------------------------------
-" 入力モードで開始する
 let g:unite_enable_start_insert=0
-" Buffer 一覧
+" Buffer
 noremap <C-U><C-U> :Unite buffer file_mru<CR>
-" ESCキーを2回押すと終了する
+" exit with Esc twice
 au FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
 au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
 
@@ -138,15 +125,14 @@ let g:neocomplcache_enable_smart_case = 1
 "------------------------------------
 " open-browser.vim
 "------------------------------------
-" カーソル下のURLをブラウザで開く
+" open browser
 nnoremap <C-U><C-O> <Plug>(openbrowser-open)
-" ググる
+" do google 
 nnoremap <C-U><C-G>  :<C-u>OpenBrowserSearch<Space><C-r><C-w><Enter>
 
 "------------------------------------
 " vim-browsereload-mac
 "------------------------------------
-" リロード後に戻ってくるアプリ 変更してください
 let g:returnApp = "terminal"
 nnoremap <Space>nn :ChromeReloadStart<CR>
 nnoremap <Space>nm :ChromeReloadStop<CR>
@@ -158,12 +144,6 @@ nnoremap <Space>nm :ChromeReloadStop<CR>
 "nmap <Space>bO :OperaReloadStop<CR>
 "nmap <Space>ba :AllBrowserReloadStart<CR>
 "nmap <Space>bA :AllBrowserReloadStop<CR>
-"
-"------------------------------------
-" NERD Tree
-"------------------------------------
-" autocmd vimenter * NERDTree
-nnoremap <C-n> :NERDTreeToggle<CR>
 
 "------------------------------------
 set runtimepath^=~/.vim/bundle/ctrlp.vim
@@ -184,7 +164,6 @@ call plug#begin('~/.vim/plugged')
 
 "utility
 Plug 'Shougo/vimshell'
-"Plug 'Shougo/vimproc'
 "file serach
 Plug 'scrooloose/nerdtree'
 Plug 'Shougo/unite.vim'
@@ -200,7 +179,7 @@ Plug 'nanotech/jellybeans.vim'
 "syntax 
 Plug 'scrooloose/syntastic'
 Plug 'hail2u/vim-css3-syntax'
-Plug 'taichouchou2/html5.vim'
+"Plug 'taichouchou2/html5.vim'
 Plug 'leafgarland/typescript-vim'
 Plug 'stephpy/vim-yaml'
 Plug 'ekalinin/Dockerfile.vim'
