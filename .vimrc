@@ -3,7 +3,7 @@
 "colorscheme darkblue
 "colorscheme desert 
 "color molokai 
-color jellybeans
+"color jellybeans
 "color pyte
 "color solarized
 "---------------------------------------------------------
@@ -116,19 +116,11 @@ let g:EasyMotion_grouping=1
 " NeoComplete
 "------------------------------------
 " Disable AutoComplPop.
-let g:acp_enableAtStartup = 0
+"let g:acp_enableAtStartup = 0
 " Use neocomplcache.
-let g:neocomplcache_enable_at_startup = 1
+"let g:neocomplcache_enable_at_startup = 1
 " Use smartcase.
-let g:neocomplcache_enable_smart_case = 1
-
-"------------------------------------
-" open-browser.vim
-"------------------------------------
-" open browser
-nnoremap <C-U><C-O> <Plug>(openbrowser-open)
-" do google 
-nnoremap <C-U><C-G>  :<C-u>OpenBrowserSearch<Space><C-r><C-w><Enter>
+"let g:neocomplcache_enable_smart_case = 1
 
 "------------------------------------
 " vim-browsereload-mac
@@ -164,28 +156,32 @@ call plug#begin('~/.vim/plugged')
 
 "utility
 Plug 'Shougo/vimshell'
+
 "file serach
 Plug 'scrooloose/nerdtree'
-Plug 'Shougo/unite.vim'
-Plug 'Shougo/neomru.vim'
+"Plug 'Shougo/unite.vim'
+"Plug 'Shougo/neomru.vim' 
+
 "with browser
-Plug 'open-browser.vim'
 Plug 'tell-k/vim-browsereload-mac'
+
 "search
 Plug 'kien/ctrlp.vim'
 Plug 'Lokaltog/vim-easymotion'
+
 "color
 Plug 'nanotech/jellybeans.vim'
+
 "syntax 
 Plug 'scrooloose/syntastic'
 Plug 'hail2u/vim-css3-syntax'
 "Plug 'taichouchou2/html5.vim'
-Plug 'leafgarland/typescript-vim'
 Plug 'stephpy/vim-yaml'
 Plug 'ekalinin/Dockerfile.vim'
 Plug 'hail2u/vim-css3-syntax'
 Plug 'tpope/vim-markdown'
 Plug 'kannokanno/previm'
+
 "completon
 Plug 'Shougo/neocomplcache.vim'
 Plug 'fatih/vim-go'
